@@ -149,7 +149,6 @@ void NN::setErrors()
     for (int i = 0; i < target.size(); i++)
     {
         double terr = (outputNeurons[i]->getActivatedVal() - target[i]);
-        // double terr = outputNeurons[i]->getActivatedVal()-target.at(i);
         errors[i] = terr;
         this->error += pow(terr,2);
     }
