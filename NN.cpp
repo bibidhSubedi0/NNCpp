@@ -77,21 +77,20 @@ void NN::setCurrentInput(vector<double> input)
 }
 void NN::printToConsole()
 {
-    for (int i = 0; i < this->layers.size(); i++)
+
+    // Print the inputs to the network
+    for(int i=0;i<input.size();i++)
     {
-        std::cout << "Layer : " << i << endl;
-        if (i == 0)
-        {
-            Matrix *m = this->layers[i]->convertTOMatrixVal();
-            m->printToConsole();
-        }
-        else
-        {
-            Matrix *m = this->layers[i]->convertTOMatrixActivatedVal();
-            m->printToConsole();
-        }
-        cout << endl;
+        cout<<input.at(i)<<"\t\t";
     }
+    cout<<endl;
+
+    // Print the outputs to the network
+    for(int i=0;i<layers.at( layers.size()-1)->getSize();i++)
+    {
+        cout<<layers.at(layers.size()-1)->getNeurons().at(i)->getActivatedVal()<<"\t";
+    }
+
 }
 
 Layer *NN::GetLayer(int nth)

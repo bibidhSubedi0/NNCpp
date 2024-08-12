@@ -34,11 +34,20 @@ int main()
 
         // cout<<endl;
         // cout<<endl;
-        cout << "Error is : " << Network->getGlobalError();
-        cout << "\n\n\n\n";
+        cout << "\nError is : " << Network->getGlobalError();
+        cout << "\n========================================================="<<endl;;
 
     } while (abs(Network->lastEpoachError()) >= abs(Network->getGlobalError()));
 
 
 
 }
+
+
+/*
+    Problems were -> Bad Architecture
+                  -> Bad cost function
+                  -> A small error in the back prop (else it was good enough)
+                  -> Bad aaproch to training the network
+    
+*/

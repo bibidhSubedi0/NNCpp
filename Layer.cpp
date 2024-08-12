@@ -13,6 +13,11 @@ Layer :: Layer(int size)
     }
 }
 
+int Layer::getSize()
+{
+    return size;
+}
+
 Matrix *Layer::convertTOMatrixVal()
 {
     Matrix *m = new Matrix(1,this->neurons.size(),false);

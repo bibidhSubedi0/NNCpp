@@ -18,8 +18,8 @@ class Layer
     Matrix *convertTOMatrixActivatedVal();
     Matrix *convertTOMatrixDerivedVal();
     Layer *feedForward(Matrix *LastWeights,Matrix *LastBias,bool isFirst);
-
     vector<Neuron *> getNeurons();
+    int getSize();
     // Use weightMatrix to calculate Value at that Layer
 
 
