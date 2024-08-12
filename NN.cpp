@@ -8,6 +8,20 @@ double NN::getGlobalError()
     return this->error;
 }
 
+double NN::lastEpoachError()
+{
+    return histErrors[histErrors.size()-1];
+}
+
+void NN::printHistErrors()
+{
+    for(int i=0;i<this->histErrors.size();i++)
+    {
+        cout<<histErrors.at(i)<<" , ";
+    }
+}
+
+
 NN ::NN(vector<int> topology)
 {
     this->topology = topology;
@@ -23,7 +37,7 @@ NN ::NN(vector<int> topology)
         Matrix *mw = new Matrix(topology[i], topology[i + 1], true);
         this->weightMatrices.push_back(mw);
 
-        Matrix *mb = new Matrix(1, topology[i + 1], true);
+        Matrix *mb = new Matrix(1, topology[i + 1], false);
         this->BaisMatrices.push_back(mb);
     }
 }
@@ -128,26 +142,26 @@ void NN::setErrors()
     }
 
     errors.resize(target.size());
-    
+
     this->error = 0;
     int outputLayerIndx = this->layers.size() - 1;
     vector<Neuron *> outputNeurons = this->layers[outputLayerIndx]->getNeurons();
     for (int i = 0; i < target.size(); i++)
     {
-        //double terr = pow((outputNeurons[i]->getActivatedVal() - target[i]) ,2);
-        double terr = outputNeurons[i]->getActivatedVal()-target.at(i);
-        errors[i]  = terr;
-        this->error += terr;
+        double terr = (outputNeurons[i]->getActivatedVal() - target[i]);
+        // double terr = outputNeurons[i]->getActivatedVal()-target.at(i);
+        errors[i] = terr;
+        this->error += pow(terr,2);
     }
+    this->error=0.5 * this->error;
     this->histErrors.push_back(this->error);
 }
 
 void NN::backPropogation()
 {
-
-    double learningRate = 1.00;
+    // double learningRate = 1.00;
     vector<Matrix *> newWeights;
-    
+
     Matrix *gardient;
     // Output to first hidden from back
     int outputLayerIndex = this->layers.size() - 1;
@@ -188,7 +202,7 @@ void NN::backPropogation()
             double delWeight = deltaOutputHidden->getVal(r, c);
             newWeightsOutputToHidden->setVal(r, c, (orgWeight - delWeight));
             // For learning rate
-            newWeightsOutputToHidden->setVal(r,c,(newWeightsOutputToHidden->getVal(r,c))*learningRate);
+            // newWeightsOutputToHidden->setVal(r,c,(newWeightsOutputToHidden->getVal(r,c))*learningRate);
         }
     }
 
@@ -204,10 +218,12 @@ void NN::backPropogation()
         }
     }
 
+    //                  Safe ---
     for (int i = outputLayerIndex - 1; i > 0; i--)
     {
         // Moving from last hidden layer down to input layer
         // Delta Weights for the hidden output layer
+
         Layer *l = this->layers[i];
 
         // Derived values at Layer L i.e. f'(wij)
@@ -216,31 +232,27 @@ void NN::backPropogation()
         Matrix *activatedHidden = l->convertTOMatrixActivatedVal();
         Matrix *weightMatrix = this->weightMatrices[i];
         Matrix *origianlWeight = this->weightMatrices[i - 1];
+
         for (int r = 0; r < weightMatrix->getNumRow(); r++)
         {
             double sum = 0;
             for (int c = 0; c < weightMatrix->getNumCols(); c++)
             {
                 double p = gardient->getVal(0, c) * weightMatrix->getVal(r, c);
-
                 sum += p;
             }
             double g = sum * activatedHidden->getVal(0, r);
             deriveGraident->setVal(0, r, g);
         }
 
-        deriveGraident = deriveGraident->tranpose();
+        // deriveGraident = deriveGraident->tranpose();
 
-        Matrix *leftNeuronsMatrix = i - 1 == 0 ? this->layers[0]->convertTOMatrixVal() : this->layers[i - 1]->convertTOMatrixActivatedVal();
+        Matrix *leftNeuronsMatrix = (i - 1) == 0 ? this->layers[0]->convertTOMatrixVal() : this->layers[i - 1]->convertTOMatrixActivatedVal();
+        // Matrix *leftNeuronsMatrix = this->layers[i]->convertTOMatrixActivatedVal();
 
-
-        Matrix *deltaWeights = deriveGraident;
-
-        deltaWeights= deltaWeights->Multiply(leftNeuronsMatrix);
-
+        Matrix *deltaWeights = deriveGraident->tranpose();
+        deltaWeights = deltaWeights->Multiply(leftNeuronsMatrix);
         deltaWeights = deltaWeights->tranpose();
-
-
 
         Matrix *newWeightsHidden = new Matrix(deltaWeights->getNumRow(), deltaWeights->getNumCols(), false);
 
@@ -255,7 +267,7 @@ void NN::backPropogation()
             }
         }
 
-        newWeights.push_back(newWeightsHidden);
+        //                      -- Safe
 
         gardient = new Matrix(deriveGraident->getNumRow(), deriveGraident->getNumCols(), false);
         for (int r = 0; r < deriveGraident->getNumRow(); r++)
@@ -266,10 +278,12 @@ void NN::backPropogation()
             }
         }
 
-
-        std::reverse(newWeights.begin(), newWeights.end());
-
-
-        this->weightMatrices = newWeights;
+        newWeights.push_back(newWeightsHidden);
     }
+
+    // Supposed to be a } here?
+
+    std::reverse(newWeights.begin(), newWeights.end());
+
+    this->weightMatrices = newWeights;
 }

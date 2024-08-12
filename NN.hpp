@@ -25,7 +25,8 @@ class NN
 
     void printErrors();
     double getGlobalError();
-
+    double lastEpoachError();
+    void printHistErrors();
 
     private:
 
