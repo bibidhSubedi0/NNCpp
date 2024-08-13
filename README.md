@@ -56,10 +56,3 @@ The `main.cpp` file contains an example of how to initialize and train the neura
 
 Contributions are welcome! If you find any bugs or have suggestions for improvements, feel free to open an issue or submit a pull request.
 
-## License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-
----
-
-This should give your project a solid starting point for documentation. You can expand it as the project evolves.
