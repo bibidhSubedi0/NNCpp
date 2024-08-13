@@ -21,9 +21,15 @@ void NN::printHistErrors()
     }
 }
 
-
-NN ::NN(vector<int> topology)
+double NN::getLearningRate()
 {
+    return learningRate;
+}
+
+
+NN ::NN(vector<int> topology,double lr)
+{
+    this->learningRate = lr;
     this->topology = topology;
     this->topologySize = topology.size();
     for (int i = 0; i < topologySize; i++)
@@ -155,9 +161,10 @@ void NN::setErrors()
     this->histErrors.push_back(this->error);
 }
 
+
+
 void NN::backPropogation()
 {
-    // double learningRate = 1.00;
     vector<Matrix *> newWeights;
 
     Matrix *gardient;
@@ -200,7 +207,7 @@ void NN::backPropogation()
             double delWeight = deltaOutputHidden->getVal(r, c);
             newWeightsOutputToHidden->setVal(r, c, (orgWeight - delWeight));
             // For learning rate
-            // newWeightsOutputToHidden->setVal(r,c,(newWeightsOutputToHidden->getVal(r,c))*learningRate);
+            newWeightsOutputToHidden->setVal(r,c,(newWeightsOutputToHidden->getVal(r,c))*learningRate);
         }
     }
 

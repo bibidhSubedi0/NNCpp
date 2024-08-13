@@ -11,7 +11,7 @@ class NN
 {
     public:
 
-    NN(vector<int> topology);
+    NN(vector<int> topology, double learningRate);
     void setCurrentInput(vector<double> input);
     void printToConsole();
     void printWeightMatrices();
@@ -27,6 +27,7 @@ class NN
     double getGlobalError();
     double lastEpoachError();
     void printHistErrors();
+    double getLearningRate();
 
     private:
 
@@ -41,6 +42,7 @@ class NN
     vector<double> target;
     vector<double> errors;
     vector<double> histErrors;
+    double learningRate;
 
 };
 
