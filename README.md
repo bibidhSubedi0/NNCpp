@@ -10,6 +10,8 @@ This repository contains an implementation of an Auto Encoded Neural Network (AN
 
 The project is organized into several key components:
 AutoEncodedNeuralNetwork/
+
+AutoEncodedNeuralNetwork/
 ├── src/
 │   ├── Layer.cpp
 │   ├── Layer.hpp
@@ -22,6 +24,7 @@ AutoEncodedNeuralNetwork/
 │   └── main.cpp
 ├── assets/
 │   └── README.md
+
 
 ## Getting Started
 
