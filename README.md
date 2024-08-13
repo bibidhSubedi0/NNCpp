@@ -1,6 +1,3 @@
-Here's a typical README for your GitHub repository:
-
----
 
 # Auto Encoded Neural Network in C++
 
