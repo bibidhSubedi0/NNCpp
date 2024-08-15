@@ -154,13 +154,22 @@ void NN::setErrors()
     for (int i = 0; i < target.size(); i++)
     {
         double terr = (outputNeurons[i]->getActivatedVal() - target[i]);
-        errors[i] = terr;
         this->error += pow(terr,2);
+        errors[i] = terr * 0.5;
     }
     this->error=0.5 * this->error;
     this->histErrors.push_back(this->error);
+    setErrorDerivatives();
 }
 
+void NN::setErrorDerivatives()
+{
+    this->errorDerivatives.resize(errors.size());
+    for(int i=0;i<errors[i];i++)
+    {
+        this->errorDerivatives[i]=this->layers[this->layers.size()-1]->getNeurons().at(i)->getActivatedVal() -target[i];
+    }
+}
 
 
 void NN::backPropogation()
@@ -181,7 +190,9 @@ void NN::backPropogation()
     for (int i = 0; i < this->layers.size(); i++)
     {
         double d = DerivedValuesFromYtoZ->getVal(0, i);
-        double e = this->errors[i];
+        // This is what it should be but for some reason it doesnot converge at atll?
+        // double e = this->errorDerivatives[i];
+        double e=this->errors[i];
         double g = d * e;
         GraidentYtoZ->setVal(0, i, g);
     }

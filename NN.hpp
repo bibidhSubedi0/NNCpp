@@ -28,6 +28,7 @@ class NN
     double lastEpoachError();
     void printHistErrors();
     double getLearningRate();
+    void setErrorDerivatives();
 
     private:
 
@@ -42,6 +43,7 @@ class NN
     vector<double> target;
     vector<double> errors;
     vector<double> histErrors;
+    vector<double> errorDerivatives;
     double learningRate;
 
 };
