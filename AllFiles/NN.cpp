@@ -1,4 +1,4 @@
-#include "NN.hpp"
+#include "NeuralNetwork.hpp"
 #include <assert.h>
 #include <cmath>
 #include <algorithm>
@@ -19,6 +19,11 @@ void NN::printHistErrors()
     {
         cout<<histErrors.at(i)<<" , ";
     }
+}
+
+vector<double> NN::gethisterrors()
+{
+    return histErrors;
 }
 
 double NN::getLearningRate()
@@ -46,6 +51,7 @@ NN ::NN(vector<int> topology,double lr)
         Matrix *mb = new Matrix(1, topology[i + 1], false);
         this->BaisMatrices.push_back(mb);
     }
+    histErrors.push_back(1);
 }
 
 void NN::setTarget(vector<double> target)
@@ -191,8 +197,8 @@ void NN::backPropogation()
     {
         double d = DerivedValuesFromYtoZ->getVal(0, i);
         // This is what it should be but for some reason it doesnot converge at atll?
-        // double e = this->errorDerivatives[i];
-        double e=this->errors[i];
+        //double e = this->errorDerivatives[i];
+         double e=this->errors[i];
         double g = d * e;
         GraidentYtoZ->setVal(0, i, g);
     }

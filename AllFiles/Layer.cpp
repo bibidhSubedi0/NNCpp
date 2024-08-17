@@ -1,6 +1,5 @@
-#include"Layer.hpp"
 #include<math.h>
-#include"Matrix.hpp"
+#include "NeuralNetwork.hpp"
 using namespace std;
 
 Layer :: Layer(int size)

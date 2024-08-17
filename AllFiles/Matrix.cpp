@@ -1,4 +1,4 @@
-#include "Matrix.hpp"
+#include "NeuralNetwork.hpp"
 #include <random>
 
 Matrix ::Matrix(int numRows, int numCols, bool isRandom = true)
@@ -26,7 +26,7 @@ double Matrix::genRandomNumber()
     std::mt19937 gen(rd()); // Mersenne Twister 19937 generator seeded with rd
 
     // Define the distribution for floating point numbers between 0 and 1
-    std::uniform_real_distribution<float> dis(0.4f, 0.6f);
+    std::uniform_real_distribution<float> dis(0.45f, 0.55f);
 
     // Generate a random float number between 0 and 1 with 3 decimal digits
     float random_number = dis(gen);

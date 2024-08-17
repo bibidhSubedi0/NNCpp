@@ -1,54 +1,58 @@
-// Auto Encoded Neural Network
-
 #include <iostream>
 #include <vector>
 #include <string>
-#include "Neuron.hpp"
-#include "Layer.hpp"
-#include "Matrix.hpp"
-#include "NN.hpp"
+#include "NeuralNetwork.hpp"
 using std::cout, std::cin, std::endl, std::string, std::vector;
 
 int main()
 {
-    vector<int> topology = {3, 8,8, 3};
+    vector<int> topology = {3, 4, 4, 3};
+    vector<vector<double>> inputs = {
+        {1, 0, 0}
+    };
 
-    // Just keeping the lr 1.0001 instead of 1.0000, the final global error will be reduced by 88.535%
-    double learningRate = 1.0001; 
-    
-    NN *Network = new NN(topology,learningRate);
+    double learningRate = 1;
 
-    vector<double> input = {1, 0, 1};
-    vector<double> output = {0,1,0};
-    Network->setCurrentInput(input);
-    Network->setTarget(input);
 
-    // Training Process
+    NN *Network = new NN(topology, learningRate);
 
     double permissibleError = 0.1;
     int epoach = 0;
 
-
-    do
+    double epochError = 0.0;
+    // Training Process
+    while (epochError <= Network->gethisterrors().at(Network->gethisterrors().size() - 1))
     {
-        cout << "Epoach : " << epoach++ << endl;
-        Network->forwardPropogation();
-        Network->setErrors();
-        Network->backPropogation();
-        Network->printToConsole();
+        epochError = 0.0;
 
-        // cout<<endl;
-        // cout<<endl;
-        cout << "\nError is : " << Network->getGlobalError();
-        cout << "\n========================================================="<<endl;;
-        epoach++;
-    }  while(epoach < INT8_MAX); //while (abs(Network->lastEpoachError()) >= abs(Network->getGlobalError()));
+        // Iterate over each training example
+        for (size_t i = 0; i < inputs.size(); ++i)
+        {
+            vector<double> input = inputs[i];
+            vector<double> target = inputs[i];
 
+            Network->setCurrentInput(input);
+            Network->setTarget(target);
 
-    cout << "\n========================================================="<<endl;
-    cout << "\n========================================================="<<endl;
+            Network->forwardPropogation();
+            Network->setErrors();
+            Network->backPropogation();
 
-    Network->printWeightMatrices();    
+            epochError += Network->getGlobalError(); // Accumulate error for the epoch
 
+            cout << "\n\n";
+            Network->printToConsole();
+            cout << "\n\n";
+        }
 
+        cout << "Epoch : " << epoach++ << endl;
+        epochError = (epochError / inputs.size()); // << endl; // Average error
+
+        // Network->printWeightMatrices();
+    }
+
+    cout << epochError << "  " << Network->gethisterrors().at(Network->gethisterrors().size() - 1) << endl;
+
+    delete Network;
+    return 0;
 }

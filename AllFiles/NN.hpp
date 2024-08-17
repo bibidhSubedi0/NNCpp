@@ -29,6 +29,7 @@ class NN
     void printHistErrors();
     double getLearningRate();
     void setErrorDerivatives();
+    vector<double> gethisterrors();
 
     private:
 
@@ -50,12 +51,3 @@ class NN
 
 
 #endif
-
-
-
-/*
-    // Topology -> Array of values that corrosponds to the size of neruons in each layer
-    // [I]->[H]->[O]  topolgy =3, 1 input, 1 hidden, 1 
-    // The corrospoding weight matrices will be topology.size()-1 = 2
-    // Each index of the topology = Corrospoding index of Layer's Index
-*/
