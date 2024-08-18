@@ -1,16 +1,15 @@
 #ifndef _NN_HPP_
 #define _NN_HPP_
 
-#include<iostream>
-#include"Matrix.hpp"
-#include"Layer.hpp"
-#include<vector>
+#include <iostream>
+#include "Matrix.hpp"
+#include "Layer.hpp"
+#include <vector>
 using namespace std;
 
 class NN
 {
-    public:
-
+public:
     NN(vector<int> topology, double learningRate);
     void setCurrentInput(vector<double> input);
     void printToConsole();
@@ -31,8 +30,9 @@ class NN
     void setErrorDerivatives();
     vector<double> gethisterrors();
 
-    private:
+   
 
+private:
     int topologySize;
     vector<int> topology;
     vector<Layer *> layers;
@@ -46,8 +46,12 @@ class NN
     vector<double> histErrors;
     vector<double> errorDerivatives;
     double learningRate;
-
+    struct outputInformation
+    {
+        double BestLearningRate;
+        vector<int> bestTopology;
+    }result;
+    vector<double> errorForAllCombinations;
 };
-
 
 #endif

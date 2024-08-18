@@ -20,6 +20,7 @@ Matrix ::Matrix(int numRows, int numCols, bool isRandom = true)
     }
 }
 
+
 double Matrix::genRandomNumber()
 {
     std::random_device rd;

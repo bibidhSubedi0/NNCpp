@@ -15,6 +15,7 @@ class Matrix
     Matrix *tranpose();
     Matrix *Multiply(Matrix *& A);
     Matrix *Add(Matrix *& A);
+    
 
 
     void setVal(int r, int c, double v);
