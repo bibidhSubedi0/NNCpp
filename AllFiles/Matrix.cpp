@@ -33,7 +33,7 @@ double Matrix::genRandomNumber()
     float random_number = dis(gen);
 
     // Output the generated random number
-    return random_number;
+    return 0.5;
 }
 
 void Matrix ::printToConsole()

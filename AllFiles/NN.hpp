@@ -46,12 +46,7 @@ private:
     vector<double> histErrors;
     vector<double> errorDerivatives;
     double learningRate;
-    struct outputInformation
-    {
-        double BestLearningRate;
-        vector<int> bestTopology;
-    }result;
-    vector<double> errorForAllCombinations;
+
 };
 
 #endif
