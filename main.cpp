@@ -30,12 +30,12 @@ int main()
     // Training Process
 
     double permissibleError = 0.1;
-    int epoach = 0;
+    int epoch = 0;
 
 
     do
     {
-        cout << "Epoach : " << epoach++ << endl;
+        cout << "Epoch : " << epoch++ << endl;
         Network->forwardPropogation();
         Network->setErrors();
         Network->backPropogation();
@@ -45,8 +45,8 @@ int main()
         // cout<<endl;
         cout << "\nError is : " << Network->getGlobalError();
         cout << "\n========================================================="<<endl;;
-        epoach++;
-    }  while(epoach < INT16_MAX); //while (abs(Network->lastEpoachError()) >= abs(Network->getGlobalError()));
+        epoch++;
+    }  while(epoch < INT16_MAX); //while (abs(Network->lastEpochError()) >= abs(Network->getGlobalError()));
 
 
     cout << "\n========================================================="<<endl;
