@@ -7,7 +7,11 @@
 #include "Layer.hpp"
 #include "Matrix.hpp"
 #include "NN.hpp"
-using std::cout, std::cin, std::endl, std::string, std::vector;
+using std::cout;
+using std::cin;
+using std::endl;
+using std::string;
+using std::vector;
 
 int main()
 {
