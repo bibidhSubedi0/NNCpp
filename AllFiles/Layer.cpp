@@ -58,8 +58,8 @@ Layer *Layer::feedForward(Matrix* Weights, Matrix *bias, bool isFirst)
     }
     
     Matrix *TransFormedMat = new Matrix(1,Weights->getNumCols(),false);
-    Matrix *z = this_layer_val->Multiply(Weights);
-    Matrix *zWithBias = z->Add(bias);
+    Matrix *z = *this_layer_val*Weights;
+    Matrix *zWithBias = *z+bias;
     
     // Put the Calculated Values in the Layer in form of vector rather then matrix
     Layer *temp = new Layer(Weights->getNumCols());

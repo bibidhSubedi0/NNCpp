@@ -227,7 +227,7 @@ void NN::backPropogation()
         PreviousLayerActivatedVals->getNumCols(),
         false);
 
-    deltaWeights = gradientsTransposed->Multiply(PreviousLayerActivatedVals);
+    deltaWeights = *gradientsTransposed*PreviousLayerActivatedVals;
 
     // Now new weights is simply given by Previous weight - DeltaWeright for each value of weight between those 2 layers
     // We can add the learning rate here as learning rate simply means the rate at which the weights will be changed
@@ -290,7 +290,7 @@ void NN::backPropogation()
             tranposedWeightMatrices->getNumCols(),
             false);
 
-        gradients = lastGradient->Multiply(tranposedWeightMatrices);
+        gradients = *lastGradient*tranposedWeightMatrices;
 
         hiddenDerived = this->layers.at(i)->convertTOMatrixDerivedVal();
 
@@ -320,7 +320,7 @@ void NN::backPropogation()
             gradients->getNumCols(),
             false);
 
-        deltaWeights = transposedHidden->Multiply(gradients);
+        deltaWeights = *transposedHidden*gradients;
 
         tempNewWeights = new Matrix(
             this->weightMatrices.at(i - 1)->getNumRow(),

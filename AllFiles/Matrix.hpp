@@ -13,8 +13,8 @@ class Matrix
     Matrix(int numRows, int numCols, bool isRandom);
     double genRandomNumber();
     Matrix *tranpose();
-    Matrix *Multiply(Matrix *& A);
-    Matrix *Add(Matrix *& A);
+    Matrix *operator *(Matrix *& A);
+    Matrix *operator +(Matrix *& A);
     
 
 

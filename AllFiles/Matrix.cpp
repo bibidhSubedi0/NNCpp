@@ -70,7 +70,7 @@ Matrix *Matrix ::tranpose()
     }
     return tans;
 }
-Matrix *Matrix::Multiply(Matrix *&B)
+Matrix *Matrix::operator *(Matrix *&B)
 {
     int rows_A = numRows;
     int cols_A = numCols;
@@ -111,7 +111,7 @@ Matrix *Matrix::Multiply(Matrix *&B)
     return C;
 }
 
-Matrix *Matrix::Add(Matrix *&B)
+Matrix *Matrix::operator +(Matrix *&B)
 {
     int rows = B->getNumRow();
     int cols = B->getNumCols(); // Assuming both matrices have the same dimensions
