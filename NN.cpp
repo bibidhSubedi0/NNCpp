@@ -3,6 +3,9 @@
 #include <cmath>
 #include <algorithm>
 
+
+
+
 double NN::getGlobalError()
 {
     return this->error;
@@ -292,3 +295,4 @@ void NN::backPropogation()
 
     this->weightMatrices = newWeights;
 }
+

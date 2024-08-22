@@ -1,16 +1,30 @@
+// include guard
 #ifndef _NN_HPP_
 #define _NN_HPP_
 
-#include<iostream>
-#include"Matrix.hpp"
-#include"Layer.hpp"
-#include<vector>
+#include <iostream>
+#include "Matrix.hpp"
+#include "Layer.hpp"
+#include <vector>
 using namespace std;
 
 class NN
 {
-    public:
+private:
+    int topologySize;
+    vector<int> topology;
+    vector<Layer *> layers;
+    vector<Matrix *> weightMatrices;
+    vector<Matrix *> GradientMatrices;
+    vector<double> input;
+    vector<Matrix *> BaisMatrices;
+    double error;
+    vector<double> target;
+    vector<double> errors;
+    vector<double> histErrors;
+    double learningRate;
 
+public:
     NN(vector<int> topology, double learningRate);
     void setCurrentInput(vector<double> input);
     void printToConsole();
@@ -29,31 +43,14 @@ class NN
     void printHistErrors();
     double getLearningRate();
 
-    private:
-
-    int topologySize;
-    vector<int> topology;
-    vector<Layer *> layers;
-    vector<Matrix *> weightMatrices;
-    vector<Matrix *> GradientMatrices;
-    vector<double> input;
-    vector<Matrix *> BaisMatrices;
-    double error;
-    vector<double> target;
-    vector<double> errors;
-    vector<double> histErrors;
-    double learningRate;
-
+   
 };
-
 
 #endif
 
-
-
 /*
     // Topology -> Array of values that corrosponds to the size of neruons in each layer
-    // [I]->[H]->[O]  topolgy =3, 1 input, 1 hidden, 1 
+    // [I]->[H]->[O]  topolgy =3, 1 input, 1 hidden, 1
     // The corrospoding weight matrices will be topology.size()-1 = 2
     // Each index of the topology = Corrospoding index of Layer's Index
 */

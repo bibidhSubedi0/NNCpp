@@ -1,6 +1,8 @@
 // Auto Encoded Neural Network
 
+
 #include <iostream>
+#include <cstdint>
 #include <vector>
 #include <string>
 #include "Neuron.hpp"
@@ -16,6 +18,7 @@ int main()
     // Just keeping the lr 1.0001 instead of 1.0000, the final global error will be reduced by 88.535%
     double learningRate = 1.0001; 
     
+    // creating a new pointer object of class NN
     NN *Network = new NN(topology,learningRate);
 
     vector<double> input = {1, 0, 0};
@@ -31,18 +34,17 @@ int main()
 
     do
     {
-        cout << "Epoach : " << epoach++ << endl;
+        cout << "Epoach : " << ++epoach << endl;
         Network->forwardPropogation();
         Network->setErrors();
         Network->backPropogation();
         Network->printToConsole();
 
-        // cout<<endl;
-        // cout<<endl;
         cout << "\nError is : " << Network->getGlobalError();
         cout << "\n========================================================="<<endl;;
-        epoach++;
-    }  while(epoach < INT16_MAX); //while (abs(Network->lastEpoachError()) >= abs(Network->getGlobalError()));
+    }  while(epoach < INT16_MAX);
+    // }while (abs(Network->lastEpoachError()) >= abs(Network->getGlobalError()));
+   
 
 
     cout << "\n========================================================="<<endl;
