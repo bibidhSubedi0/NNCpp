@@ -76,7 +76,7 @@ Matrix *Matrix::Multiply(Matrix *&B)
     int cols_B = B->getNumCols();
     int rows_B = B->getNumRow();
     // A vaneko Aafu, B vaneko arko
-    // Resultant matrix C with size rows_A x
+    // Resultant matrix C with size rows_A x cols_B
     Matrix *C = new Matrix(rows_A, cols_B, false);
 
     if (cols_A != rows_B)
@@ -110,7 +110,8 @@ Matrix *Matrix::Multiply(Matrix *&B)
     return C;
 }
 
-Matrix *Matrix::Add(Matrix *&B)
+
+Matrix *Matrix::operator +(Matrix *&B)
 {
     int rows = B->getNumRow();
     int cols = B->getNumCols(); // Assuming both matrices have the same dimensions

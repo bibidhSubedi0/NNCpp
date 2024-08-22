@@ -14,7 +14,7 @@ class Matrix
     double genRandomNumber();
     Matrix *tranpose();
     Matrix *Multiply(Matrix *& A);
-    Matrix *Add(Matrix *& A);
+    Matrix *operator +(Matrix *& A);
 
 
     void setVal(int r, int c, double v);
