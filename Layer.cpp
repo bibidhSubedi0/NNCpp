@@ -27,6 +27,7 @@ Matrix *Layer::convertTOMatrixVal()
     }
     return m;
 }
+
 Matrix *Layer::convertTOMatrixActivatedVal()
 {
     Matrix *m = new Matrix(1,this->neurons.size(),false);
@@ -36,6 +37,7 @@ Matrix *Layer::convertTOMatrixActivatedVal()
     }
     return m;
 }
+
 Matrix *Layer::convertTOMatrixDerivedVal()
 {
     Matrix *m = new Matrix(1,this->neurons.size(),false);

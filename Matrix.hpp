@@ -12,7 +12,7 @@ class Matrix
 
     Matrix(int numRows, int numCols, bool isRandom);
     double genRandomNumber();
-    Matrix *tranpose();
+    Matrix *transpose();
     Matrix *Multiply(Matrix *& A);
     Matrix *Add(Matrix *& A);
 
@@ -22,7 +22,7 @@ class Matrix
 
     void printToConsole();
 
-    int getNumRow(){return this->numRows;}
+    int getNumRows(){return this->numRows;}
     int getNumCols(){return this->numCols;}
 
     private:

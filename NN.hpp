@@ -17,7 +17,7 @@ private:
     vector<Matrix *> weightMatrices;
     vector<Matrix *> GradientMatrices;
     vector<double> input;
-    vector<Matrix *> BaisMatrices;
+    vector<Matrix *> biasMatrices;
     double error;
     vector<double> target;
     vector<double> errors;
@@ -43,7 +43,9 @@ public:
     void printHistErrors();
     double getLearningRate();
 
-   
+    // FOR JSON
+    void saveNetworkToJson(std::string &filename);
+    void loadNetworkFromJson( std::string &filename);
 };
 
 #endif

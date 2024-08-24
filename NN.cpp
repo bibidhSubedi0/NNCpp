@@ -3,6 +3,8 @@
 #include <cmath>
 #include <algorithm>
 
+#include "json.hpp"
+#include <fstream>
 
 
 
@@ -47,7 +49,7 @@ NN ::NN(vector<int> topology,double lr)
         this->weightMatrices.push_back(mw);
 
         Matrix *mb = new Matrix(1, topology[i + 1], false);
-        this->BaisMatrices.push_back(mb);
+        this->biasMatrices.push_back(mb);
     }
 }
 
@@ -121,7 +123,7 @@ void NN::forwardPropogation()
 {
     for (int i = 0; i < layers.size() - 1; i++)
     {
-        layers[i + 1] = layers[i]->feedForward(weightMatrices[i], BaisMatrices[i], (i == 0));
+        layers[i + 1] = layers[i]->feedForward(weightMatrices[i], biasMatrices[i], (i == 0));
     }
 }
 
@@ -131,7 +133,7 @@ void NN::printBiases()
     {
         std::cout << "-------------------------------------------------------------" << endl;
         std::cout << "Bias for Hidden Layer : " << i + 1 << endl;
-        BaisMatrices[i]->printToConsole();
+        biasMatrices[i]->printToConsole();
     }
 }
 
@@ -193,16 +195,16 @@ void NN::backPropogation()
     Layer *lastHiddenLayer = this->layers[lastHiddenLayerIdx];
 
     Matrix *weightsOutputToHidden = this->weightMatrices[outputLayerIndex - 1];
-    // Matrix *deltaOutputHidden = new Matrix(weightsOutputToHidden->getNumRow(),weightsOutputToHidden->getNumCols(),false);
-    Matrix *deltaOutputHidden = GraidentYtoZ->tranpose();
+    // Matrix *deltaOutputHidden = new Matrix(weightsOutputToHidden->getNumRows(),weightsOutputToHidden->getNumCols(),false);
+    Matrix *deltaOutputHidden = GraidentYtoZ->transpose();
 
     Matrix *LastHiddenLayerActivatedVals = lastHiddenLayer->convertTOMatrixActivatedVal();
     deltaOutputHidden = deltaOutputHidden->Multiply(LastHiddenLayerActivatedVals);
-    deltaOutputHidden = deltaOutputHidden->tranpose();
+    deltaOutputHidden = deltaOutputHidden->transpose();
 
-    Matrix *newWeightsOutputToHidden = new Matrix(deltaOutputHidden->getNumRow(), deltaOutputHidden->getNumCols(), false);
+    Matrix *newWeightsOutputToHidden = new Matrix(deltaOutputHidden->getNumRows(), deltaOutputHidden->getNumCols(), false);
 
-    for (int r = 0; r < deltaOutputHidden->getNumRow(); r++)
+    for (int r = 0; r < deltaOutputHidden->getNumRows(); r++)
     {
         for (int c = 0; c < deltaOutputHidden->getNumCols(); c++)
         {
@@ -216,9 +218,9 @@ void NN::backPropogation()
 
     newWeights.push_back(newWeightsOutputToHidden);
 
-    gardient = new Matrix(GraidentYtoZ->getNumRow(), GraidentYtoZ->getNumCols(), false);
+    gardient = new Matrix(GraidentYtoZ->getNumRows(), GraidentYtoZ->getNumCols(), false);
 
-    for (int r = 0; r < GraidentYtoZ->getNumRow(); r++)
+    for (int r = 0; r < GraidentYtoZ->getNumRows(); r++)
     {
         for (int c = 0; c < GraidentYtoZ->getNumCols(); c++)
         {
@@ -241,7 +243,7 @@ void NN::backPropogation()
         Matrix *weightMatrix = this->weightMatrices[i];
         Matrix *origianlWeight = this->weightMatrices[i - 1];
 
-        for (int r = 0; r < weightMatrix->getNumRow(); r++)
+        for (int r = 0; r < weightMatrix->getNumRows(); r++)
         {
             double sum = 0;
             for (int c = 0; c < weightMatrix->getNumCols(); c++)
@@ -253,18 +255,18 @@ void NN::backPropogation()
             deriveGraident->setVal(0, r, g);
         }
 
-        // deriveGraident = deriveGraident->tranpose();
+        // deriveGraident = deriveGraident->transpose();
 
         Matrix *leftNeuronsMatrix = (i - 1) == 0 ? this->layers[0]->convertTOMatrixVal() : this->layers[i - 1]->convertTOMatrixActivatedVal();
         // Matrix *leftNeuronsMatrix = this->layers[i]->convertTOMatrixActivatedVal();
 
-        Matrix *deltaWeights = deriveGraident->tranpose();
+        Matrix *deltaWeights = deriveGraident->transpose();
         deltaWeights = deltaWeights->Multiply(leftNeuronsMatrix);
-        deltaWeights = deltaWeights->tranpose();
+        deltaWeights = deltaWeights->transpose();
 
-        Matrix *newWeightsHidden = new Matrix(deltaWeights->getNumRow(), deltaWeights->getNumCols(), false);
+        Matrix *newWeightsHidden = new Matrix(deltaWeights->getNumRows(), deltaWeights->getNumCols(), false);
 
-        for (int r = 0; r < newWeightsHidden->getNumRow(); r++)
+        for (int r = 0; r < newWeightsHidden->getNumRows(); r++)
         {
             for (int c = 0; c < newWeightsHidden->getNumCols(); c++)
             {
@@ -277,8 +279,8 @@ void NN::backPropogation()
 
         //                      -- Safe
 
-        gardient = new Matrix(deriveGraident->getNumRow(), deriveGraident->getNumCols(), false);
-        for (int r = 0; r < deriveGraident->getNumRow(); r++)
+        gardient = new Matrix(deriveGraident->getNumRows(), deriveGraident->getNumCols(), false);
+        for (int r = 0; r < deriveGraident->getNumRows(); r++)
         {
             for (int c = 0; c < deriveGraident->getNumCols(); c++)
             {
@@ -296,3 +298,125 @@ void NN::backPropogation()
     this->weightMatrices = newWeights;
 }
 
+using json = nlohmann::json;
+
+void NN::saveNetworkToJson(std::string &filename) {
+    // initializing JSON object so as to use it save the network 
+    json networkJson;
+
+    // saves the topology size in JSON file under the key "topology"
+    networkJson["topology"] = topology;
+
+    // save the weight matrices
+    for (int i = 0; i < weightMatrices.size(); i++) {
+        // done to make a array for each weight matrix
+        json weightMatrixJson = json::array();
+        for (int j = 0; j < weightMatrices[i]->getNumRows(); j++) {
+            json rowJson = json::array();
+            for (int k = 0; k < weightMatrices[i]->getNumCols(); k++) {
+                rowJson.push_back(weightMatrices[i]->getVal(j, k));
+            }
+            weightMatrixJson.push_back(rowJson);
+        }
+        networkJson["weights"][i] = weightMatrixJson;
+    }
+
+    // save the bias matrices
+    for (int i = 0; i < biasMatrices.size(); i++) {
+        json biasMatrixJson = json::array();
+        for (int r = 0; r < biasMatrices[i]->getNumRows(); r++) {
+            json rowJson = json::array();
+            for (int c = 0; c < biasMatrices[i]->getNumCols(); c++) {
+                rowJson.push_back(biasMatrices[i]->getVal(r, c));
+            }
+            biasMatrixJson.push_back(rowJson);
+        }
+        // saves the biasMatrices in JSON file under the key "biases"
+        networkJson["biases"][i] = biasMatrixJson;
+    }
+
+    std::ofstream outFile(filename);
+    // dump() is used to convert the JSON object to string 
+    // saving the JSON object to the file
+    outFile << networkJson.dump(4);
+    outFile.close();
+
+    std::cout << "Network saved to " << filename << " as JSON." << std::endl;
+}
+
+void NN::loadNetworkFromJson(std::string &filename) {
+    // creating a ifstream object to read the file
+    std::ifstream inFile(filename);
+    // check if the file is open or not using the is_open() function provided by the ifstream class
+    if (!inFile.is_open()) {
+        std::cerr << "Error: Could not open file for loading network!" << std::endl;
+        return;
+    }
+
+    json networkJson;
+    inFile >> networkJson;
+    inFile.close();
+
+    // clear the existing topology size
+    topology.clear();
+    // retrieveing the topology size from the JSON file
+    topology = networkJson["topology"].get<std::vector<int>>();
+
+    // Rebuild network structure with new topology
+    topologySize = topology.size();
+    // layers is vector of Layer pointers
+    layers.clear();
+    weightMatrices.clear();
+    biasMatrices.clear();
+
+    for (int i = 0; i < topologySize; i++) {
+        Layer *l = new Layer(topology[i]);
+        layers.push_back(l);
+    }
+
+    for (int i = 0; i < topologySize - 1; i++) {
+        Matrix *mw = new Matrix(topology[i], topology[i + 1], false);
+        weightMatrices.push_back(mw);
+
+        Matrix *mb = new Matrix(1, topology[i + 1], false);
+        biasMatrices.push_back(mb);
+    }
+
+    // Load weight matrices
+    for (int i = 0; i < weightMatrices.size(); i++) {
+        // here the values under the key "weights" of i index are stored in weightMatrixJson array
+        json weightMatrixJson = networkJson["weights"][i];
+        for (int j= 0; j< weightMatrices[i]->getNumRows(); j++) {
+            for (int k = 0; k< weightMatrices[i]->getNumCols(); k++) {
+                weightMatrices[i]->setVal(j, k, weightMatrixJson[j][k]);
+            }
+        }
+    }
+
+    
+    // Load bias matrices
+    for (int i = 0; i < biasMatrices.size(); i++) {
+        json biasMatrixJson = networkJson["biases"][i];
+        for (int j= 0; j< biasMatrices[i]->getNumRows(); j++) {
+            for (int k = 0; k< biasMatrices[i]->getNumCols(); k++) {
+                biasMatrices[i]->setVal(j, k, biasMatrixJson[j][k]);
+            }
+        }
+    }
+
+    // printing the weight matrices
+    cout << "Weight Matrices" << endl;
+    for (int i = 0; i < weightMatrices.size(); i++) {
+        cout << "Weight Matrix " << i << endl;
+        weightMatrices[i]->printToConsole();
+        cout << endl;
+    }
+
+    // printing the weight matrices
+    cout << "Bias Matrices" << endl;
+    for (int i = 0; i < biasMatrices.size(); i++) {
+        cout << "Bias Matrix " << i << endl;
+        biasMatrices[i]->printToConsole();
+        cout << endl;
+    }
+}
