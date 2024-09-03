@@ -4,12 +4,12 @@
 #include <algorithm>
 #include <fstream>
 
-double NN::getGlobalError()
+long double NN::getGlobalError()
 {
     return this->error;
 }
 
-double NN::lastEpoachError()
+long double NN::lastEpoachError()
 {
     return histErrors[histErrors.size() - 1];
 }
@@ -42,12 +42,12 @@ void NN:: saveHistErrors()
 
 }
 
-vector<double> NN::gethisterrors()
+vector<long double> NN::gethisterrors()
 {
     return histErrors;
 }
 
-double NN::getLearningRate()
+long double NN::getLearningRate()
 {
     return learningRate;
 }

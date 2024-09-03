@@ -5,7 +5,7 @@ import pandas as pd
 data = pd.read_csv('error_vs_epoch.csv')
 
 # Plot the data
-plt.plot(data['Epoch'], data['Error'], marker='o')
+plt.plot(data['Epoch'], data['Error'], marker='.')
 plt.xlabel('Epoch')
 plt.ylabel('Error')
 plt.title('Error vs. Epoch')

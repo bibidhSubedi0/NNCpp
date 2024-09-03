@@ -23,13 +23,13 @@ public:
     void setTarget(vector<double> target);
 
     void printErrors();
-    double getGlobalError();
-    double lastEpoachError();
+    long double getGlobalError();
+    long double lastEpoachError();
     void printHistErrors();
     void saveHistErrors();
-    double getLearningRate();
+    long double getLearningRate();
     void setErrorDerivatives();
-    vector<double> gethisterrors();
+    vector<long double> gethisterrors();
 
    
 
@@ -43,8 +43,8 @@ private:
     vector<Matrix *> BaisMatrices;
     double error;
     vector<double> target;
-    vector<double> errors;
-    vector<double> histErrors;
+    vector<long double> errors;
+    vector<long double> histErrors;
     vector<double> errorDerivatives;
     double learningRate;
 

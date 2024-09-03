@@ -26,23 +26,23 @@ outputInformation TrainNetwork(vector<double> lrs, vector<vector<int>> topologie
             }
             cout << endl;
 
-            double errorForThisLrAndThisTopology = 0;
+            long double errorForThisLrAndThisTopology = 0.00;
 
             NN *Network = new NN(topo, lr);
             int epoch = 0;
 
 
-            size_t totalElements=0;
-            for(auto & input: inputs)
-            {
-                totalElements+=input.size();
-            }
+            // size_t totalElements=0;
+            // for(auto & input: inputs)
+            // {
+            //     totalElements+=input.size();
+            // }
 
 
             while (epoch < totalEpoch)
             {
                 epoch++;
-                errorForThisLrAndThisTopology = 0.0;
+               errorForThisLrAndThisTopology = 0.0;
 
                 for (size_t i = 0; i < inputs.size(); ++i)
                 {
@@ -58,12 +58,18 @@ outputInformation TrainNetwork(vector<double> lrs, vector<vector<int>> topologie
                     Network->backPropogation();
 
                     errorForThisLrAndThisTopology += Network->getGlobalError();
+                    // errorForThisLrAndThisTopology = errorForThisLrAndThisTopology * (inputs.size() + 1) + Network->getGlobalError();
+
                     //cout<<errorForThisLrAndThisTopology<<endl;
                 }
-                
 
-                errorForThisLrAndThisTopology = (errorForThisLrAndThisTopology / totalElements);
+                errorForThisLrAndThisTopology = errorForThisLrAndThisTopology / (inputs.size() + 1 ) ;
+                //errorForThisLrAndThisTopology = errorForThisLrAndThisTopology / (inputs.size() + 1 ) ;
+
+                             
             }
+
+            // errorForThisLrAndThisTopology = (errorForThisLrAndThisTopology / (inputs.size() )) ;
 
             if (errorForThisLrAndThisTopology < bestLeastError)
             {

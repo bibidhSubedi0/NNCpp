@@ -33,11 +33,11 @@ outputInformation TrainNetwork(vector<double> lrs, vector<vector<int>> topologie
             double errorForThisLrAndThisTopology = 0;
 
             NN *Network = new NN(topo, lr);
-            int epoach = 0;
+            int epoch = 0;
 
-            while (epoach < totalEpoch)
+            while (epoch < totalEpoch)
             {
-                epoach++;
+                epoch++;
                 errorForThisLrAndThisTopology = 0.0;
 
                 for (size_t i = 0; i < inputs.size(); ++i)
