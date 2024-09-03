@@ -26,6 +26,7 @@ public:
     double getGlobalError();
     double lastEpoachError();
     void printHistErrors();
+    void saveHistErrors();
     double getLearningRate();
     void setErrorDerivatives();
     vector<double> gethisterrors();
@@ -46,6 +47,8 @@ private:
     vector<double> histErrors;
     vector<double> errorDerivatives;
     double learningRate;
+
+    
 
 };
 

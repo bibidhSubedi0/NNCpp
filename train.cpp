@@ -29,11 +29,19 @@ outputInformation TrainNetwork(vector<double> lrs, vector<vector<int>> topologie
             double errorForThisLrAndThisTopology = 0;
 
             NN *Network = new NN(topo, lr);
-            int epoach = 0;
+            int epoch = 0;
 
-            while (epoach < totalEpoch)
+
+            size_t totalElements=0;
+            for(auto & input: inputs)
             {
-                epoach++;
+                totalElements+=input.size();
+            }
+
+
+            while (epoch < totalEpoch)
+            {
+                epoch++;
                 errorForThisLrAndThisTopology = 0.0;
 
                 for (size_t i = 0; i < inputs.size(); ++i)
@@ -52,8 +60,9 @@ outputInformation TrainNetwork(vector<double> lrs, vector<vector<int>> topologie
                     errorForThisLrAndThisTopology += Network->getGlobalError();
                     //cout<<errorForThisLrAndThisTopology<<endl;
                 }
+                
 
-                errorForThisLrAndThisTopology = (errorForThisLrAndThisTopology / inputs[0].size());
+                errorForThisLrAndThisTopology = (errorForThisLrAndThisTopology / totalElements);
             }
 
             if (errorForThisLrAndThisTopology < bestLeastError)
@@ -62,6 +71,9 @@ outputInformation TrainNetwork(vector<double> lrs, vector<vector<int>> topologie
                 result.leastError = errorForThisLrAndThisTopology;
                 result.bestTopology = topo;
                 bestLeastError = errorForThisLrAndThisTopology;
+
+
+
                 result.best_Network = new NN(*Network);
             }
             result.errorForAllCombinations.push_back(errorForThisLrAndThisTopology);

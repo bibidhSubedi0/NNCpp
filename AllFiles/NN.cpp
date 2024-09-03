@@ -2,6 +2,7 @@
 #include <assert.h>
 #include <cmath>
 #include <algorithm>
+#include <fstream>
 
 double NN::getGlobalError()
 {
@@ -15,10 +16,30 @@ double NN::lastEpoachError()
 
 void NN::printHistErrors()
 {
+    cout<<"\n Printing Errors from all epochs:"<<endl;
     for (int i = 0; i < this->histErrors.size(); i++)
     {
-        cout << histErrors.at(i) << " , ";
+        cout <<"Epoch: "<<i<<", Error:"<< histErrors.at(i) << " \n ";
     }
+}
+
+void NN:: saveHistErrors()
+{
+    ofstream outFile("error_vs_epoch.csv");
+
+    if (outFile.is_open()) {
+
+        outFile << "Epoch,Error\n";
+
+        for (size_t i = 0; i < this->histErrors.size(); ++i) {
+            outFile << i << "," << histErrors[i] << "\n";
+        }
+    outFile.close();
+    } 
+    else {
+        cerr << "Unable to open file for writing.\n";
+    }
+
 }
 
 vector<double> NN::gethisterrors()

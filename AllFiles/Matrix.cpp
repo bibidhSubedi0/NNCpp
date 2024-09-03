@@ -31,9 +31,9 @@ double Matrix::genRandomNumber()
 
     // Generate a random float number between 0 and 1 with 3 decimal digits
     float random_number = dis(gen);
-
+    return random_number;
     // Output the generated random number
-    return 0.5;
+    //return 0.5;
 }
 
 void Matrix ::printToConsole()
