@@ -12,9 +12,9 @@ int main()
 
     // Prameters for the neural network to be trained on.......
     vector<double> lrs = {1,0.1,0.5,0.2};
-    vector<vector<int>> topologies = {{3,4,3},{3,2,3},{3,4,5,3}};
-    vector<vector<double>> inputs = {{1,0,1},{1,1,1},{0,1,1}};//{1,1,0}};
-    vector<vector<double>> targets = {{1,0,1},{1,1,1},{0,1,1}};//{1,1,0}};
+    vector<vector<int>> topologies = {{3,4,3},{3,2,3},{3,4,4,3}};
+    vector<vector<double>> inputs = {{1,0,1},{0,1,0}};//{1,1,0}};
+    vector<vector<double>> targets = {{1,0,1},{0,1,0}};//{1,1,0}};
     int totalEpoch = 1200;
 
 
@@ -53,7 +53,15 @@ int main()
 
     cout<<endl;
 
-    trained.best_Network->printToConsole();
+    for(int i=0;i<inputs.size();i++)
+    {
+        cout<<endl;
+        trained.best_Network->setCurrentInput(inputs[i]);
+        trained.best_Network->forwardPropogation();
+        trained.best_Network->printToConsole();
+
+        cout<<endl;
+    }
 
     cout<< "\n---------------------------------------------------------------------------------\n";
  
