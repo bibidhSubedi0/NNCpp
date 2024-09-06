@@ -2,7 +2,7 @@
 #define _MATRIX_HPP_
 
 #include<iostream>
-#include"Neuron.hpp"
+//#include"Neuron.hpp"
 #include<vector>
 using namespace std;
 
@@ -23,7 +23,7 @@ class Matrix
 
     void printToConsole();
 
-    int getNumRow(){return this->numRows;}
+    int getNumRows(){return this->numRows;}
     int getNumCols(){return this->numCols;}
 
     private:

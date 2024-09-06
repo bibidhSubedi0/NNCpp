@@ -8,15 +8,15 @@ Matrix ::Matrix(int numRows, int numCols, bool isRandom = true)
 
     for (int i = 0; i < numRows; i++)
     {
-        vector<double> cols;
+        vector<double> rows;
         for (int j = 0; j < numCols; j++)
         {
             double r = 0.00;
             if (isRandom)
                 r = this->genRandomNumber();
-            cols.push_back(r);
+            rows.push_back(r);
         }
-        this->values.push_back(cols);
+        this->values.push_back(rows);
     }
 }
 
@@ -75,7 +75,8 @@ Matrix *Matrix::operator *(Matrix *&B)
     int rows_A = numRows;
     int cols_A = numCols;
     int cols_B = B->getNumCols();
-    int rows_B = B->getNumRow();
+    int rows_B = B->getNumRows
+    ();
     // A vaneko Aafu, B vaneko arko
     // Resultant matrix C with size rows_A x
     Matrix *C = new Matrix(rows_A, cols_B, false);
@@ -113,7 +114,7 @@ Matrix *Matrix::operator *(Matrix *&B)
 
 Matrix *Matrix::operator +(Matrix *&B)
 {
-    int rows = B->getNumRow();
+    int rows = B->getNumRows();
     int cols = B->getNumCols(); // Assuming both matrices have the same dimensions
 
     Matrix *ans = new Matrix(rows, cols, false);

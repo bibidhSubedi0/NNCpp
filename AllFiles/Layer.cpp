@@ -29,7 +29,7 @@ Matrix *Layer::convertTOMatrixVal()
 Matrix *Layer::convertTOMatrixActivatedVal()
 {
     Matrix *m = new Matrix(1,this->neurons.size(),false);
-        for(int i=0;i<neurons.size();i++)
+    for(int i=0;i<neurons.size();i++)
     {
         m->setVal(0,i,this->neurons[i]->getActivatedVal());
     }
@@ -38,7 +38,7 @@ Matrix *Layer::convertTOMatrixActivatedVal()
 Matrix *Layer::convertTOMatrixDerivedVal()
 {
     Matrix *m = new Matrix(1,this->neurons.size(),false);
-        for(int i=0;i<neurons.size();i++)
+    for(int i=0;i<neurons.size();i++)
     {
         m->setVal(0,i,this->neurons[i]->getDerivedVal());
     }

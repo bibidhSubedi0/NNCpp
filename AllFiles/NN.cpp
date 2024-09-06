@@ -9,7 +9,7 @@ long double NN::getGlobalError()
     return this->error;
 }
 
-long double NN::lastEpoachError()
+long double NN::lastEpochError()
 {
     return histErrors[histErrors.size() - 1];
 }
@@ -32,7 +32,7 @@ void NN:: saveHistErrors()
         outFile << "Epoch,Error\n";
 
         for (size_t i = 0; i < this->histErrors.size(); ++i) {
-            outFile << i << "," << histErrors[i] << "\n";
+            outFile << i+1 << "," << histErrors[i] << "\n";
         }
     outFile.close();
     } 
@@ -68,10 +68,10 @@ NN ::NN(vector<int> topology, double lr)
         Matrix *mw = new Matrix(topology[i], topology[i + 1], true);
         this->weightMatrices.push_back(mw);
 
-        Matrix *mb = new Matrix(1, topology[i + 1], false);
-        this->BaisMatrices.push_back(mb);
+        Matrix *mb = new Matrix(1, topology[i + 1], true);
+        this->BiasMatrices.push_back(mb);
     }
-    histErrors.push_back(1);
+    //histErrors.push_back(1);
 }
 
 void NN::setTarget(vector<double> target)
@@ -142,7 +142,7 @@ void NN::forwardPropogation()
 {
     for (int i = 0; i < layers.size() - 1; i++)
     {
-        layers[i + 1] = layers[i]->feedForward(weightMatrices[i], BaisMatrices[i], (i == 0));
+        layers[i + 1] = layers[i]->feedForward(weightMatrices[i], BiasMatrices[i], (i == 0));
     }
 }
 
@@ -152,7 +152,7 @@ void NN::printBiases()
     {
         std::cout << "-------------------------------------------------------------" << endl;
         std::cout << "Bias for Hidden Layer : " << i + 1 << endl;
-        BaisMatrices[i]->printToConsole();
+        BiasMatrices[i]->printToConsole();
     }
 }
 
@@ -244,7 +244,7 @@ void NN::backPropogation()
     // Think of it as a chain effect, tyo partial derivates ma chain rule lagaya jastai
 
     deltaWeights = new Matrix(
-        gradientsTransposed->getNumRow(),
+        gradientsTransposed->getNumRows(),
         PreviousLayerActivatedVals->getNumCols(),
         false);
 
@@ -307,7 +307,7 @@ void NN::backPropogation()
 
         // Again Same thing with gradient as before
         gradients = new Matrix(
-            lastGradient->getNumRow(),
+            lastGradient->getNumRows(),
             tranposedWeightMatrices->getNumCols(),
             false);
 
@@ -337,14 +337,14 @@ void NN::backPropogation()
         transposedHidden = PreviousLayerActivatedVals->tranpose();
 
         deltaWeights = new Matrix(
-            transposedHidden->getNumRow(),
+            transposedHidden->getNumRows(),
             gradients->getNumCols(),
             false);
 
         deltaWeights = *transposedHidden*gradients;
 
         tempNewWeights = new Matrix(
-            this->weightMatrices.at(i - 1)->getNumRow(),
+            this->weightMatrices.at(i - 1)->getNumRows(),
             this->weightMatrices.at(i - 1)->getNumCols(),
             false);
 
@@ -352,7 +352,7 @@ void NN::backPropogation()
         // New weight =  old weight - change in weight
         // also learning rate is incorporated as before
 
-        for (int r = 0; r < tempNewWeights->getNumRow(); r++)
+        for (int r = 0; r < tempNewWeights->getNumRows(); r++)
         {
             for (int c = 0; c < tempNewWeights->getNumCols(); c++)
             {

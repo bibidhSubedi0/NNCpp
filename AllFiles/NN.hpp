@@ -24,7 +24,7 @@ public:
 
     void printErrors();
     long double getGlobalError();
-    long double lastEpoachError();
+    long double lastEpochError();
     void printHistErrors();
     void saveHistErrors();
     long double getLearningRate();
@@ -40,7 +40,7 @@ private:
     vector<Matrix *> weightMatrices;
     vector<Matrix *> GradientMatrices;
     vector<double> input;
-    vector<Matrix *> BaisMatrices;
+    vector<Matrix *> BiasMatrices;
     double error;
     vector<double> target;
     vector<long double> errors;
