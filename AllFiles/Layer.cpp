@@ -17,7 +17,7 @@ int Layer::getSize()
     return size;
 }
 
-Matrix *Layer::convertTOMatrixVal()
+Matrix *Layer::convertTOMatrixVal() //0 initilaized "neurons" in layer class is made a row matrix
 {
     Matrix *m = new Matrix(1,this->neurons.size(),false);
     for(int i=0;i<neurons.size();i++)
@@ -26,7 +26,7 @@ Matrix *Layer::convertTOMatrixVal()
     }
     return m;
 }
-Matrix *Layer::convertTOMatrixActivatedVal()
+Matrix *Layer::convertTOMatrixActivatedVal() //"neurons" from layer get activated and connverted to row marix
 {
     Matrix *m = new Matrix(1,this->neurons.size(),false);
     for(int i=0;i<neurons.size();i++)
@@ -35,7 +35,7 @@ Matrix *Layer::convertTOMatrixActivatedVal()
     }
     return m;
 }
-Matrix *Layer::convertTOMatrixDerivedVal()
+Matrix *Layer::convertTOMatrixDerivedVal() //neurons get derived and converted to row matrix
 {
     Matrix *m = new Matrix(1,this->neurons.size(),false);
     for(int i=0;i<neurons.size();i++)
@@ -57,7 +57,14 @@ Layer *Layer::feedForward(Matrix* Weights, Matrix *bias, bool isFirst)
         this_layer_val = convertTOMatrixActivatedVal();
     }
     
+   
+
+
     Matrix *TransFormedMat = new Matrix(1,Weights->getNumCols(),false);
+
+
+
+
     Matrix *z = *this_layer_val*Weights;
     Matrix *zWithBias = *z+bias;
     

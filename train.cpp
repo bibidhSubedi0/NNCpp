@@ -46,7 +46,7 @@ outputInformation TrainNetwork(vector<double> lrs, vector<vector<int>> topologie
 
                 for (size_t i = 0; i < inputs.size(); ++i)
                 {
-                    vector<double> input = inputs[i];
+                    vector<double> input = inputs[i]; 
                     vector<double> target = targets[i];
 
                     Network->setCurrentInput(input);

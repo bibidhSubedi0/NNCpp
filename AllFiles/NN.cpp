@@ -325,6 +325,7 @@ void NN::backPropogation()
         // Now for delta weight, not exactly same as before but similer
         // δW = Transpose(PreviousLayerActivaedVals) * Gradients which we jsut calculated
 
+
         if (i == 1)
         {
             PreviousLayerActivatedVals = this->layers.at(0)->convertTOMatrixVal();

@@ -84,7 +84,7 @@ Matrix *Matrix::operator *(Matrix *&B)
     if (cols_A != rows_B)
     {
         std::cout << "-------------------------------------------------------------" << std::endl;
-        std::cout << "Invlaid Dimentions" << std::endl;
+        std::cout << "Invlaid Dimensions" << std::endl;
         cout<<endl;
         cout<<endl;
         cout<<" This Matrix "<<endl;

@@ -12,7 +12,7 @@ class Neuron
     void setVal(double v);
     // Activation Function
 
-    //Fast Sigmoide Function f(x) = x/(1+|x|)
+    //Fast Sigmoid Function f(x) = x/(1+|x|)
     // Derivative => f'(x) = f(x) *(1-f(x))
     void Activate();
     void Derive();
@@ -24,7 +24,7 @@ class Neuron
 
     private:
     double val;
-    double activatedVal; // After passing through sigmoide
+    double activatedVal; // After passing through sigmoid
     double derivedVal; // approx derivative of activacted val
 
 };
