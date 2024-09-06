@@ -28,7 +28,9 @@ outputInformation TrainNetwork(vector<double> lrs, vector<vector<int>> topologie
 
             long double errorForThisLrAndThisTopology = 0.00;
 
-            NN *Network = new NN(topo, lr);
+            
+
+            NN *Network = new NN(topo, lr, inputs.size());
             int epoch = 0;
 
 
@@ -62,6 +64,8 @@ outputInformation TrainNetwork(vector<double> lrs, vector<vector<int>> topologie
 
                     //cout<<errorForThisLrAndThisTopology<<endl;
                 }
+
+                Network->updateWeights();
 
                 errorForThisLrAndThisTopology = errorForThisLrAndThisTopology / (inputs.size() + 1 ) ;
                 //errorForThisLrAndThisTopology = errorForThisLrAndThisTopology / (inputs.size() + 1 ) ;

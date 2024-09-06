@@ -123,9 +123,24 @@ Matrix *Matrix::operator +(Matrix *&B)
     {
         for (int j = 0; j < cols; ++j)
         {
-            ans->values[i][j] += values[i][j] + B->values[i][j];
+            ans->values[i][j] = values[i][j] + B->values[i][j];
         }
     }
 
     return ans;
+}
+
+Matrix* Matrix::operator *(double scalar)
+{
+    Matrix* result= new Matrix(numRows, numCols, false); 
+
+    for (int i = 0; i < numRows; ++i)
+    {
+        for (int j = 0; j < numCols; ++j)
+        {
+            result->values[i][j] = values[i][j] * scalar; 
+        }
+    }
+
+    return result;
 }

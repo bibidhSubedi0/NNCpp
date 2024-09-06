@@ -15,7 +15,7 @@ class Matrix
     Matrix *tranpose();
     Matrix *operator *(Matrix *& A);
     Matrix *operator +(Matrix *& A);
-    
+    Matrix *operator *(double scalar);
 
 
     void setVal(int r, int c, double v);

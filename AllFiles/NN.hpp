@@ -10,7 +10,7 @@ using namespace std;
 class NN
 {
 public:
-    NN(vector<int> topology, double learningRate);
+    NN(vector<int> topology, double learningRate, int sample_size);
     void setCurrentInput(vector<double> input);
     void printToConsole();
     void printWeightMatrices();
@@ -30,17 +30,23 @@ public:
     long double getLearningRate();
     void setErrorDerivatives();
     vector<long double> gethisterrors();
-
+    Matrix* getGradientsAccumulator(int sample, int layer);
+    void updateWeights();
    
 
 private:
     int topologySize;
+
+    int batch_size;
+
     vector<int> topology;
     vector<Layer *> layers;
     vector<Matrix *> weightMatrices;
     vector<Matrix *> GradientMatrices;
+    vector<vector<Matrix *>> GradientsAccumulator;
     vector<double> input;
     vector<Matrix *> BiasMatrices;
+
     double error;
     vector<double> target;
     vector<long double> errors;
