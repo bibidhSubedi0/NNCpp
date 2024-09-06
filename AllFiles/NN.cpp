@@ -4,6 +4,28 @@
 #include <algorithm>
 #include <fstream>
 
+NN ::NN(vector<int> topology, double lr)
+{
+    this->learningRate = lr;
+    this->topology = topology;
+    this->topologySize = topology.size();
+    for (int i = 0; i < topologySize; i++)
+    {
+        Layer *l = new Layer(topology[i]);
+        this->layers.push_back(l);
+    }
+
+    for (int i = 0; i < topologySize - 1; i++)
+    {
+        Matrix *mw = new Matrix(topology[i], topology[i + 1], true);
+        this->weightMatrices.push_back(mw);
+
+        Matrix *mb = new Matrix(1, topology[i + 1], true);
+        this->BiasMatrices.push_back(mb);
+    }
+    //histErrors.push_back(1);
+}
+
 long double NN::getGlobalError()
 {
     return this->error;
@@ -50,28 +72,6 @@ vector<long double> NN::gethisterrors()
 long double NN::getLearningRate()
 {
     return learningRate;
-}
-
-NN ::NN(vector<int> topology, double lr)
-{
-    this->learningRate = lr;
-    this->topology = topology;
-    this->topologySize = topology.size();
-    for (int i = 0; i < topologySize; i++)
-    {
-        Layer *l = new Layer(topology[i]);
-        this->layers.push_back(l);
-    }
-
-    for (int i = 0; i < topologySize - 1; i++)
-    {
-        Matrix *mw = new Matrix(topology[i], topology[i + 1], true);
-        this->weightMatrices.push_back(mw);
-
-        Matrix *mb = new Matrix(1, topology[i + 1], true);
-        this->BiasMatrices.push_back(mb);
-    }
-    //histErrors.push_back(1);
 }
 
 void NN::setTarget(vector<double> target)
@@ -138,14 +138,6 @@ void NN::printWeightMatrices()
     }
 }
 
-void NN::forwardPropogation()
-{
-    for (int i = 0; i < layers.size() - 1; i++)
-    {
-        layers[i + 1] = layers[i]->feedForward(weightMatrices[i], BiasMatrices[i], (i == 0));
-    }
-}
-
 void NN::printBiases()
 {
     for (int i = 0; i < weightMatrices.size(); i++)
@@ -155,6 +147,15 @@ void NN::printBiases()
         BiasMatrices[i]->printToConsole();
     }
 }
+
+void NN::forwardPropogation()
+{
+    for (int i = 0; i < layers.size() - 1; i++) //cause 3 ta layers huda 2 choti forwardprop garne ho, 3 choti haina
+    {
+        layers[i + 1] = layers[i]->feedForward(weightMatrices[i], BiasMatrices[i], (i == 0));
+    }
+}
+
 
 void NN::setErrors()
 {
