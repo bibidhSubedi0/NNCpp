@@ -239,9 +239,9 @@ void NN::backPropogation()
     PreviousLayerActivatedVals = this->layers.at(outputLayerIndex - 1)->convertTOMatrixActivatedVal();
 
     // Now that we have the gradient, i.e.direction of the error function of the network, as in we know, how the error function is changing, as in increasing or decreasing at that point
-    // We can use it calculate new weights, but first we need to calculate the chagne in the weights, i.e. ..... you know it..... comon say it...... YESS......DeltaWeight which is given by
+    // We can use it calculate new weights, but first we need to calculate the change in the weights, i.e. ..... you know it..... c'mon say it...... YESS......DeltaWeight which is given by
     // δW = Transpose((Transpose(G) * Z)), where
-    // G is obviouslt the gradient and Z is the previous/Left layer's activated values, becuase as we know, these activated values from prevoius layer, determine the new values of the current layer
+    // G is obviously the gradient and Z is the previous/Left layer's activated values, becuase as we know, these activated values from prevoius layer, determine the new values of the current layer
     // Think of it as a chain effect, tyo partial derivates ma chain rule lagaya jastai
 
     deltaWeights = new Matrix(

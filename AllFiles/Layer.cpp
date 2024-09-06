@@ -26,7 +26,7 @@ Matrix *Layer::convertTOMatrixVal() //0 initilaized "neurons" in layer class is 
     }
     return m;
 }
-Matrix *Layer::convertTOMatrixActivatedVal() //"neurons" from layer get activated and connverted to row marix
+Matrix *Layer::convertTOMatrixActivatedVal() //"neurons" from layer jun banne bittikai activate hunthe are connverted to row marix
 {
     Matrix *m = new Matrix(1,this->neurons.size(),false);
     for(int i=0;i<neurons.size();i++)
@@ -35,7 +35,7 @@ Matrix *Layer::convertTOMatrixActivatedVal() //"neurons" from layer get activate
     }
     return m;
 }
-Matrix *Layer::convertTOMatrixDerivedVal() //neurons get derived and converted to row matrix
+Matrix *Layer::convertTOMatrixDerivedVal() //layer bata access garincha yo function, derived value of neurons lai matrix banauna
 {
     Matrix *m = new Matrix(1,this->neurons.size(),false);
     for(int i=0;i<neurons.size();i++)
