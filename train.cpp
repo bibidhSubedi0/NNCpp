@@ -31,6 +31,8 @@ outputInformation TrainNetwork(vector<double> lrs, vector<vector<int>> topologie
             
 
             NN *Network = new NN(topo, lr, inputs.size());
+
+            
             int epoch = 0;
 
 
@@ -48,6 +50,7 @@ outputInformation TrainNetwork(vector<double> lrs, vector<vector<int>> topologie
 
                 for (size_t i = 0; i < inputs.size(); ++i)
                 {
+                   
                     vector<double> input = inputs[i]; 
                     vector<double> target = targets[i];
 
@@ -55,17 +58,32 @@ outputInformation TrainNetwork(vector<double> lrs, vector<vector<int>> topologie
                     Network->setTarget(target);
 
                     Network->forwardPropogation();
+                    Network->printToConsole();
 
+                    // Network->printWeightMatrices();
+                    // Network->printBiases();
+                    //cout<<Network->lastEpochError()<<endl; //Network banne bittikai histError 1 push garda balla yesle 1 dincha natra segmentation fault
+
+                    //cout<<"hi"<<endl;
                     Network->setErrors();
+                    //Network->printErrors();
+
+                    cout<<"\nhello"<<endl;
+
+                    
                     Network->backPropogation();
+                    //Network->printGradientsAccumulator();
 
                     errorForThisLrAndThisTopology += Network->getGlobalError();
+
                     // errorForThisLrAndThisTopology = errorForThisLrAndThisTopology * (inputs.size() + 1) + Network->getGlobalError();
 
-                    //cout<<errorForThisLrAndThisTopology<<endl;
+                    cout<<errorForThisLrAndThisTopology<<endl;
                 }
-
-                Network->updateWeights();
+                
+                cout<<"i am above"<<endl;
+                Network->gradientDescent();
+                cout<<"i am below"<<endl;
 
                 errorForThisLrAndThisTopology = errorForThisLrAndThisTopology / (inputs.size() + 1 ) ;
                 //errorForThisLrAndThisTopology = errorForThisLrAndThisTopology / (inputs.size() + 1 ) ;

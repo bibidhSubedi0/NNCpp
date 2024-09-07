@@ -31,7 +31,8 @@ public:
     void setErrorDerivatives();
     vector<long double> gethisterrors();
     Matrix* getGradientsAccumulator(int sample, int layer);
-    void updateWeights();
+    void printGradientsAccumulator ();
+    void gradientDescent();
    
 
 private:

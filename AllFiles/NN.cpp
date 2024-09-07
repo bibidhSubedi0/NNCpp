@@ -27,7 +27,7 @@ NN ::NN(vector<int> topology, double lr, int sample_size)
         // Matrix *gm= new Matrix(1, topology[i+1],false);
         // this->GradientMatrices.push_back(gm);
     }
-    //histErrors.push_back(1);
+    histErrors.push_back(1);
 }
 
 long double NN::getGlobalError()
@@ -196,10 +196,6 @@ void NN::setErrors()
 void NN::backPropogation()
 
 {
-    // Okay lets fucking organize this little pice of shit code
-
-    // All the Matrices we will need thorughout the process :
-
     Matrix *gradients;
     Matrix *DerivedValuesFromOtoH;
     vector<Matrix *> GradientMatrices;
@@ -207,16 +203,11 @@ void NN::backPropogation()
     Matrix *lastGradient;
     Matrix *hiddenDerived;
 
-    vector<vector<Matrix *>> GradientsAccumulator;
   
 
     // Index of the outermost layer, as the name suggests....
     int outputLayerIndex = this->topology.size() - 1;
 
-    // A graident as used in tyo vector calculus was chapter, gives the rate of change of a function Ψ  in a normal direction
-    // But here we used to get the rate of change of the error and its direction, as in +ve error or -ve error, the formula for this gradient
-    // used here is G [(e1' x y1')  (e2' x y2') ........ (en' x yn')] where en' is the value of error derivate for the nth neuron and yn' is the derived value for that neuron
-    // Formula ka bato ayo tha xaina, dont ask, just use it
     gradients = new Matrix(
         1,
         this->topology.at(outputLayerIndex),
@@ -234,7 +225,8 @@ void NN::backPropogation()
     }
 
     this->GradientMatrices.push_back(gradients);
-    // // Transpoing the gradient cuz the plot demands
+    
+
     // gradientsTransposed = gradients->tranpose();
 
     // // ------------------------ So upto here the gradient has been calculated --------------------------
@@ -338,7 +330,7 @@ void NN::backPropogation()
 
     //     if (i == 1)
     //     {
-    //         PreviousLayerActivatedVals = this->layers.at(0)->convertTOMatrixVal();
+    //        PreviousLayerActivatedVals = this->layers.at(0)->convertTOMatrixVal();
     //     }
     //     else
     //     {
@@ -414,15 +406,28 @@ void NN::backPropogation()
 
 Matrix* NN:: getGradientsAccumulator (int sample, int layer)
 {
-    return GradientsAccumulator[sample][layer];
+    return this->GradientsAccumulator[sample][layer];
 }
 
-void NN::updateWeights()
+void NN:: printGradientsAccumulator ()
 {
+    for (int i = 0; i < this->layers.size(); i++)
+    {
+        for (int j = 0; j < batch_size; j++)
+        {
+            this->GradientsAccumulator[j][i]->Matrix::printToConsole();
+            cout<<endl;
+        }
+    }
+}
+
+void NN::gradientDescent()
+{
+    
     vector<Matrix *> newWeights;
     Matrix *deltaWeights;
     Matrix *gradients;
-    Matrix *DerivedValuesFromOtoH;
+   // Matrix *DerivedValuesFromOtoH;
     Matrix *gradientsTransposed;
     Matrix *PreviousLayerActivatedVals;
     Matrix *tempNewWeights;
@@ -430,30 +435,69 @@ void NN::updateWeights()
     Matrix *tranposedWeightMatrices;
     Matrix *hiddenDerived;
     Matrix *transposedHidden;
+    Matrix* tempSum;
+    Matrix* tempGradients;
+    
 
     int outputLayerIndex = this->topology.size() - 1;
 
     vector<Matrix *>averageGradientMatrices;
-    Matrix* temp;
+   
+    //cout<<"hellooo above"<<endl;
     
     for (int i=0; i < topologySize; i++)
     {
-        temp = new Matrix(1, this->layers[i+1]->getSize(), false );
-
+        cout<<"hellooo number "<<i<<endl;
+        tempSum = new Matrix(1, this->layers[i+1]->getSize(), false );
+        
         for (int j=0; j < batch_size; j++)
         {
-                  
-            temp = *getGradientsAccumulator(j,i) + temp;
+            // HELPPPPPPP
+            //temp = *temp + getGradientsAccumulator(j,i) ; 
+            cout<<"ok we trying"<<endl;
+           // tempGradients = new Matrix(*getGradientsAccumulator(j, i));
+            
+            
+        //Matrix* gradMatrix = getGradientsAccumulator(j, i);
+        if (tempSum == nullptr) {
+            // Handle the error, e.g., by skipping the operation or throwing an exception
+            std::cerr << "Error: gradMatrix is null for sample " << j << " and layer " << i << std::endl;
+            return; // Or handle as needed
+        }
+        else{
+            cout<<"negro"<<endl;
+        }
+        //tempGradients = new Matrix(*gradMatrix);
+            
+            
+            cout<<"hellooo again pachi from number "<<i<<endl;
+            tempSum = *tempSum + tempGradients;
+            cout<<"pass vaiyo?"<<endl;
+            
                       
         }
-        temp->operator*(1.00/batch_size);
-        averageGradientMatrices.push_back(temp);
+        tempSum->operator*(1.00/batch_size);
+        averageGradientMatrices.push_back(tempSum);
     }
+
+    delete tempSum;
+    cout<<"hellooo"<<endl;
 
     gradients = averageGradientMatrices[outputLayerIndex]; //output layer ko lai gradients
     gradientsTransposed = gradients->tranpose();
 
+    // ------------------------ So upto here the gradient has been calculated --------------------------
+    // -------------------------for output to first hidden only btw ------------------------------------
+
+
     PreviousLayerActivatedVals = this->layers.at(outputLayerIndex - 1)->convertTOMatrixActivatedVal();
+
+    // // Now that we have the gradient, i.e.direction of the error function of the network, as in we know, how the error function is changing, as in increasing or decreasing at that point
+    // // We can use it calculate new weights, but first we need to calculate the change in the weights, i.e. ..... you know it..... c'mon say it...... YESS......DeltaWeight which is given by
+    // // δW = Transpose((Transpose(G) * Z)), where
+    // // G is obviously the gradient and Z is the previous/Left layer's activated values, becuase as we know, these activated values from prevoius layer, determine the new values of the current layer
+    // // Think of it as a chain effect, tyo partial derivates ma chain rule lagaya jastai
+
 
     deltaWeights = new Matrix(
         gradientsTransposed->getNumRows(),
@@ -461,6 +505,10 @@ void NN::updateWeights()
         false);
 
     deltaWeights = *gradientsTransposed*PreviousLayerActivatedVals;
+
+    // // Now new weights is simply given by Previous weight - DeltaWeright for each value of weight between those 2 layers
+    // // We can add the learning rate here as learning rate simply means the rate at which the weights will be changed
+
 
     tempNewWeights = new Matrix(
         this->topology.at(outputLayerIndex - 1),
@@ -481,12 +529,35 @@ void NN::updateWeights()
         }
 
     newWeights.push_back(new Matrix(*tempNewWeights));
+
+     // // Hya samma tai new weight calculate gareo but just for output layer to first hidden layer
+
     
     delete gradientsTransposed;
     delete PreviousLayerActivatedVals;
     delete tempNewWeights;
     delete deltaWeights;
-    delete DerivedValuesFromOtoH;
+    //delete DerivedValuesFromOtoH;
+
+    // Now aila samma ta just Output to last hidden layer gareko, now need to do from last to first hidden layer
+
+
+
+
+
+
+
+
+    // delete gradients;
+
+
+
+
+
+
+
+
+
 
 
     for (int i = (outputLayerIndex - 1); i > 0; i--)
@@ -550,6 +621,12 @@ void NN::updateWeights()
     {
         delete this->weightMatrices[i];
     }
+
+
+    this->GradientMatrices.clear();
+
+
+
 
     this->weightMatrices.clear();
 

@@ -13,8 +13,8 @@ int main()
     // Prameters for the neural network to be trained on.......
     vector<double> lrs = {1,0.1,0.5,0.2};
     vector<vector<int>> topologies = {{3,4,3},{3,2,3},{3,4,4,3}};
-    vector<vector<double>> inputs = {{1,0,1},{0,1,0}};//{1,1,0}};
-    vector<vector<double>> targets = {{1,0,1},{0,1,0}};//{1,1,0}};
+    vector<vector<double>> inputs = {{1,0,1},{0,1,0},{1,1,0}};
+    vector<vector<double>> targets = {{1,0,1},{0,1,0},{1,1,0}};
     int totalEpoch = 1200;
 
 
