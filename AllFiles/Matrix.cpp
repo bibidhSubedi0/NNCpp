@@ -75,8 +75,7 @@ Matrix *Matrix::operator *(Matrix *&B)
     int rows_A = numRows;
     int cols_A = numCols;
     int cols_B = B->getNumCols();
-    int rows_B = B->getNumRows
-    ();
+    int rows_B = B->getNumRows();
     // A vaneko Aafu, B vaneko arko
     // Resultant matrix C with size rows_A x
     Matrix *C = new Matrix(rows_A, cols_B, false);
@@ -114,10 +113,11 @@ Matrix *Matrix::operator *(Matrix *&B)
 
 Matrix *Matrix::operator +(Matrix *&B)
 {
+    
     int rows = B->getNumRows();
     int cols = B->getNumCols(); // Assuming both matrices have the same dimensions
-
     Matrix *ans = new Matrix(rows, cols, false);
+
 
     for (int i = 0; i < rows; ++i)
     {

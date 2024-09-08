@@ -8,11 +8,29 @@ using std::cout;
 int main()
 {
 
+    // Matrix *p = new Matrix(2,2,true);
+    // Matrix *q = new Matrix(2,2,true);
+    // Matrix *r = new Matrix(2,2,true);
 
+    // vector<Matrix*> mptr;
+
+    // mptr.push_back(p);
+    // mptr.push_back(q);
+    // mptr.push_back(r);
+
+    // r=NULL;
+    // q=NULL;
+
+    // for(int i=0;i<mptr.size();i++)
+    // {
+    //     mptr[i]->printToConsole();
+    // }
+
+    // cout<<"---------------------------------------------------"<<endl;
 
     // Prameters for the neural network to be trained on.......
     vector<double> lrs = {1,0.1,0.5,0.2};
-    vector<vector<int>> topologies = {{3,4,3},{3,2,3},{3,4,4,3}};
+    vector<vector<int>> topologies = {{3,4,6,3}};
     vector<vector<double>> inputs = {{1,0,1},{0,1,0},{1,1,0}};
     vector<vector<double>> targets = {{1,0,1},{0,1,0},{1,1,0}};
     int totalEpoch = 1200;

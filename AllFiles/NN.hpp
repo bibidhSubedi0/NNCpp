@@ -43,7 +43,7 @@ private:
     vector<int> topology;
     vector<Layer *> layers;
     vector<Matrix *> weightMatrices;
-    vector<Matrix *> GradientMatrices;
+    // vector<Matrix *> GradientMatrices;
     vector<vector<Matrix *>> GradientsAccumulator;
     vector<double> input;
     vector<Matrix *> BiasMatrices;

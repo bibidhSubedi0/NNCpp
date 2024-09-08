@@ -58,7 +58,7 @@ outputInformation TrainNetwork(vector<double> lrs, vector<vector<int>> topologie
                     Network->setTarget(target);
 
                     Network->forwardPropogation();
-                    Network->printToConsole();
+                    // Network->printToConsole();
 
                     // Network->printWeightMatrices();
                     // Network->printBiases();
@@ -67,8 +67,6 @@ outputInformation TrainNetwork(vector<double> lrs, vector<vector<int>> topologie
                     //cout<<"hi"<<endl;
                     Network->setErrors();
                     //Network->printErrors();
-
-                    cout<<"\nhello"<<endl;
 
                     
                     Network->backPropogation();
@@ -81,9 +79,10 @@ outputInformation TrainNetwork(vector<double> lrs, vector<vector<int>> topologie
                     cout<<errorForThisLrAndThisTopology<<endl;
                 }
                 
-                cout<<"i am above"<<endl;
+                cout<<"abcd"<<endl;
+                Network->printGradientsAccumulator();
+                cout<<"abcddddddddddddddddd"<<endl;
                 Network->gradientDescent();
-                cout<<"i am below"<<endl;
 
                 errorForThisLrAndThisTopology = errorForThisLrAndThisTopology / (inputs.size() + 1 ) ;
                 //errorForThisLrAndThisTopology = errorForThisLrAndThisTopology / (inputs.size() + 1 ) ;
