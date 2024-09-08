@@ -200,6 +200,7 @@ void NN::backPropogation()
     Matrix *gradientFirst;
     Matrix *DerivedValuesFromOtoH;
     vector<Matrix *> GradientMatrices;
+    cout<<"not ok"<<endl;
     Matrix *tranposedWeightMatrices;
     Matrix *lastGradient;
     Matrix *gradients;

@@ -8,7 +8,7 @@ using std::cout;
 int main()
 {
 
-    // Matrix *p = new Matrix(2,2,true);
+    // Matrix *p = new Matrix(2,3,true);
     // Matrix *q = new Matrix(2,2,true);
     // Matrix *r = new Matrix(2,2,true);
 
@@ -18,12 +18,15 @@ int main()
     // mptr.push_back(q);
     // mptr.push_back(r);
 
+    // // delete r;
+    // // delete q;
     // r=NULL;
     // q=NULL;
 
     // for(int i=0;i<mptr.size();i++)
     // {
     //     mptr[i]->printToConsole();
+    //     cout<<endl;
     // }
 
     // cout<<"---------------------------------------------------"<<endl;

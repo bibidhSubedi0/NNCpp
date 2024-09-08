@@ -68,11 +68,13 @@ outputInformation TrainNetwork(vector<double> lrs, vector<vector<int>> topologie
                     Network->setErrors();
                     //Network->printErrors();
 
-                    
+                    cout<<"above"<<endl; 
                     Network->backPropogation();
+                    cout<<"below"<<endl;
                     //Network->printGradientsAccumulator();
 
                     errorForThisLrAndThisTopology += Network->getGlobalError();
+                    cout<<"aye ma tw"<<endl;
 
                     // errorForThisLrAndThisTopology = errorForThisLrAndThisTopology * (inputs.size() + 1) + Network->getGlobalError();
 
