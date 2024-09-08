@@ -56,7 +56,6 @@ outputInformation TrainNetwork(vector<double> lrs, vector<vector<int>> topologie
 
                     Network->setErrors();
                     Network->backPropogation();
-
                     errorForThisLrAndThisTopology += Network->getGlobalError();
                     // errorForThisLrAndThisTopology = errorForThisLrAndThisTopology * (inputs.size() + 1) + Network->getGlobalError();
 

@@ -393,5 +393,6 @@ void NN::backPropogation()
 
     // assigning newWeights to weightMatrices and the back prop is over
     weightMatrices = newWeights;
+    //return newWeights;
 }
 
